@@ -7,8 +7,8 @@ command :issues do |command, user|
 
   case command
   when 'open', 'closed'
-    report = YAML.load(open(@helper.list_issues_for(user, command)))
-    @helper.print_issues(report['issues'], options)
+    report = JSON.parse(open(@helper.list_issues_for(user, command)).read)
+    @helper.print_issues(report, options)
   when 'web'
     helper.open helper.issues_page_for(user)
   else
