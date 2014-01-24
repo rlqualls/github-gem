@@ -272,9 +272,17 @@ helper :has_launchy? do |blk|
 end
 
 helper :open do |url|
-  has_launchy? proc {
-    Launchy.open url
-  }
+  # Open in current browser is one is running - not sure if permafeature
+  process_list = `ps aux`
+  if process_list =~ /firefox/
+    system("firefox", url)
+  elsif process_list = ~ /chrome/
+    system("chrome", url)
+  else
+    has_launchy? proc {
+      Launchy.open url
+    }
+  end
 end
 
 helper :print_network_help do
