@@ -142,10 +142,10 @@ command :clone do |user, repo, dir|
   die "Specify a user to pull from" if user.nil?
   if options[:search]
     query = [user, repo, dir].compact.join(" ")
-    data = JSON.parse(open("https://github.com/api/v1/json/search/#{URI.escape query}").read)
-    if (repos = data['repositories']) && !repos.nil? && repos.length > 0
+    data = JSON.parse(open("https://api.github.com/search/repositories?q=#{URI.escape query}&sort=stars&order=desc").read)
+    if (repos = data['items']) && !repos.nil? && repos.length > 0
       repo_list = repos.map do |r|
-        { "name" => "#{r['username']}/#{r['name']}", "description" => r['description'] }
+        { "name" => r['full_name'], "description" => r['description'] }
       end
       formatted_list = helper.format_list(repo_list).split("\n")
       if user_repo = GitHub::UI.display_select_list(formatted_list)
@@ -229,11 +229,14 @@ command :fork do |user, repo|
     end
   end
 
-  current_origin = git "config remote.origin.url"
+  # I'm not sure if this is supposed to be here
+  # current_origin = git "config remote.origin.url"
   
-  output_json = sh "curl -F 'login=#{github_user}' -F 'token=#{github_token}' https://github.com/api/v2/json/repos/fork/#{user}/#{repo}"
+  output_json = sh "curl -F 'login=#{github_user}' -F 'token=#{github_token}' https://api.github.com/repos/#{user}/#{repo}/forks"
   output = JSON.parse(output_json)
-  if output["error"]
+  if !output
+    die "Could not get a JSON response"
+  elsif output["error"] 
     die output["error"]
   else
     url = "git@github.com:#{github_user}/#{repo}.git"
