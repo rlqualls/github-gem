@@ -1,5 +1,7 @@
 # The GitHub Gem
 
+[![Code Climate](https://codeclimate.com/github/rlqualls/github-gem.png)](https://codeclimate.com/github/rlqualls/github-gem)
+
 The official github CLI gem was pretty old and still using API V1, so I'm updating
 it. 
 
