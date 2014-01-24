@@ -279,7 +279,7 @@ command :search do |query|
   data = JSON.parse(open("https://api.github.com/search/repositories?q=#{URI.escape query}&sort=starts&order=desc").read)
   if data["total_count"] > 0
     repos = data["items"]
-    puts repos.map { |r| "#{r['full_name']} - #{r['description']}"}
+    puts repos.map { |r| "#{Paint[r['full_name'], :blue]} - #{r['description']}"}
   else
     puts "No results found"
   end
