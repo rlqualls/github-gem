@@ -75,7 +75,8 @@ describe GitHub::Command do
   end
 
   it "should die" do
-    @command.should_receive(:puts).once.with("=> message")
+    colored_message = Paint["message", :red]
+    @command.should_receive(:puts).once.with("=> #{colored_message}")
     @command.should_receive(:exit!).once
     @command.die "message"
   end

@@ -62,7 +62,8 @@ module GitHub
     end
 
     def die(message)
-      puts "=> #{message}"
+      colored_message = Paint[message, :red]
+      puts "=> #{colored_message}"
       exit!
     end
 
