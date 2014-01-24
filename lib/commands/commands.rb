@@ -276,8 +276,8 @@ desc "Search GitHub for the given repository name."
 usage "github search [query]"
 command :search do |query|
   die "Usage: github search [query]" if query.nil?
-  data = JSON.parse(open("https://api.github.com/search/repositories?q=#{URI.escape query}&sort=starts&order=desc").read)
-  if data["total_count"] > 0
+  data = JSON.parse(open("https://api.github.com/search/repositories?q=#{URI.escape query}&sort=stars&order=desc").read)
+  if data && data["total_count"] > 0
     repos = data["items"]
     puts repos.map { |r| "#{Paint[r['full_name'], :blue]} - #{r['description']}"}
   else
