@@ -2,18 +2,17 @@
 
 [![Code Climate](https://codeclimate.com/github/rlqualls/github-gem.png)](https://codeclimate.com/github/rlqualls/github-gem)
 
-The official github CLI gem was pretty old and still using API V1, so I'm updating
+The official github CLI gem was pretty old and still using API V1/V2, so I'm updating
 it. 
 
 The original source code can be found at [defunkt/github-gem](https://github.com/defunkt/github-gem).
 
 ## Installation (for now)
 
-    git clone http://github.com/rlqualls/github-gem
-    cd github-gem
-    bundle
-    gem build *.gemspec
-    gem install *.gem
+    $ git clone http://github.com/rlqualls/github-gem
+    $ cd github-gem
+    $ bundle
+    $ rake install
 
 ## Pulling Upstream Changes
 
