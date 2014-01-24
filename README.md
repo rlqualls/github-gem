@@ -1,26 +1,17 @@
 # The GitHub Gem
 
-This gem works hand-in-hand with GitHub's API to help you out.
+The official github CLI gem was pretty old and still using API V1, so I'm updating
+it. 
 
-Catch us in the #github room on freenode if you want to get involved.  Or just fork and send a pull request.
+The original source code can be found at [defunkt/github-gem](https://github.com/defunkt/github-gem).
 
-## Getting started
+## Installation (for now)
 
-    $ gem install github
-
-Run it:
-
-    $ github <command> <args>
-    $ gh <command> <args>
-
-## Requirements
-
-Only installs pure JSON gem `json_pure` by default. If you are able to install the C-extension `json` gem, it will use that instead.
-
-Try:
-
-    gem install json github
-
+    git clone http://github.com/rlqualls/github-gem
+    cd github-gem
+    bundle
+    gem build *.gemspec
+    gem install *.gem
 
 ## Pulling Upstream Changes
 
