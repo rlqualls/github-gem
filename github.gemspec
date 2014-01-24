@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ['Chris Wanstrath', 'Kevin Ballard', 'Scott Chacon', 'Dr Nic Williams']
   s.email       = ["drnicwilliams@gmail.com"]
   s.homepage    = "https://github.com/defunkt/github-gem"
-  s.summary     = "The official `github` command line helper for simplifying your GitHub experience."
-  s.description = "The official `github` command line helper for simplifying your GitHub experience."
+  s.summary     = "Github command line helper"
+  s.description = "Based on the official `github-gem` command line helper"
 
   s.rubyforge_project = "github"
 
