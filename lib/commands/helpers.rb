@@ -417,9 +417,9 @@ end
 
 helper :print_issues_help do
   puts <<-EOHELP
-You have to provide a command :
+usage: gh issues [type]
 
-  open           - shows open tickets for this project
+  open (default) - shows open tickets for this project
   closed         - shows closed tickets for this project
 
     --user=<username>   - show issues from <username>'s repository
