@@ -453,10 +453,10 @@ end
 helper :format_issue do |issue, options|
   options ||= {}
   report = []
-  report << "Issue ##{issue['number']} (#{issue['votes']} votes): #{issue['title']}"
+  report << "Issue ##{issue['number']} #{Paint[issue['title'], :blue]}"
   report << "*  URL: http://github.com/#{options[:user]}/#{project}/issues/#issue/#{issue['number']}" if options[:user]
-  report << "*  Opened #{distance_of_time(issue['created_at'], Time.now)} by #{issue['user']}" if issue['created_at']
-  report << "*  Closed #{distance_of_time(issue['closed_at'], Time.now)}" if issue['closed_at']
+  report << "*  #{Paint['Opened', :green]} #{distance_of_time(issue['created_at'], Time.now)} by #{issue['user']['login']}" if issue['created_at']
+  report << "*  #{Paint['Closed', :red]} #{distance_of_time(issue['closed_at'], Time.now)}" if issue['closed_at']
   report << "*  Last updated #{distance_of_time(issue['updated_at'], Time.now)}" if issue['updated_at']
   report << "*  Labels: #{issue['labels'].join(', ')}" if issue['labels'] && issue['labels'].length > 0
   report << ""
