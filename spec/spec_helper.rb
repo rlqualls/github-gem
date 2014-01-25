@@ -7,6 +7,7 @@ require 'active_record'
 require 'active_support/core_ext/numeric/time'
 require 'active_support/core_ext/time/acts_like'
 require 'active_support/core_ext/time/calculations'
+require 'paint'
 
 require File.dirname(__FILE__) + '/../lib/github'
 
@@ -119,8 +120,9 @@ Spec::Runner.configure do |configuration|
   end
 
   configuration.prepend_before(:each) do
-    add_guard Kernel, :`
-    add_guard Kernel, :system
+    # Note sure if we should prevent shelling out
+    # add_guard Kernel, :`
+    # add_guard Kernel, :system
     add_guard Kernel, :fork
     add_guard Kernel, :exec
     add_class_guard Process, :fork

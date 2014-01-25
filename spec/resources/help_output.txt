@@ -21,6 +21,7 @@ Available commands:
                        --textile : Create README.textile
   create-from-local => Create a new GitHub repository from the current local
                        repository
+                       % github create-from-local [repo_name]
                        --private: Create private repository
   fetch             => Fetch from a remote to a local branch.
   fetch_all         => Fetch all refs from a user
@@ -34,10 +35,12 @@ Available commands:
                        closed [user]
                        --after: Only show issues updated after a certain date
                        --label: Only show issues with a certain label
-  network           => Project network tools - sub-commands : web [user], list,
+  network           => Project network tools - sub-commands : web [user],
+list,
                        fetch, commits
                        --after : Only show commits after a certain date
-                       --applies : Filter commits to patches that apply cleanly
+                       --applies : Filter commits to patches that apply
+cleanly
                        --author : Filter commits on a email address of author
                        --before : Only show commits before a certain date
                        --cache : Use the network data even if it's expired
