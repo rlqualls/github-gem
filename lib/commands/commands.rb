@@ -276,10 +276,15 @@ command :'create-from-local' do |repo_name|
 end
 
 desc "Search GitHub for the given repository name."
+flags :language => "Only show results for a particular language"
 usage "github search [query]"
 command :search do |query|
   die "Usage: github search [query]" if query.nil?
-  data = JSON.parse(open("https://api.github.com/search/repositories?q=#{URI.escape query}&sort=stars&order=desc").read)
+  if language = options[:language]
+    data = JSON.parse(open("https://api.github.com/search/repositories?q=#{URI.escape query}+language:#{language}&sort=stars&order=desc").read)
+  else
+    data = JSON.parse(open("https://api.github.com/search/repositories?q=#{URI.escape query}&sort=stars&order=desc").read)
+  end
   if data && data["total_count"] > 0
     repos = data["items"]
     puts repos.map { |r| "#{Paint[r['full_name'], :blue]} - #{r['description']}"}
