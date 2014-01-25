@@ -193,7 +193,10 @@ flags :rdoc => 'Create README.rdoc'
 flags :rst => 'Create README.rst'
 flags :private => 'Create private repository'
 command :create do |repo|
-  command = "curl -F 'name=#{repo}' -F 'public=#{options[:private] ? 0 : 1}' -F 'login=#{github_user}' -F 'token=#{github_token}' https://github.com/api/v2/json/repos/create"
+  if File.directory?(repo)
+    die "Directory already exists"
+  end
+  command = "curl https://api.github.com/user/repos?access_token=#{github_token} -d '{\"name\": \"#{repo}\"'"
   output_json = sh command
   output = JSON.parse(output_json)
   if output["error"]
@@ -205,8 +208,10 @@ command :create do |repo|
     extension = options.keys.first
     touch extension ? "README.#{extension}" : "README"
     git "add *"
-    git "commit -m 'First commit!'"
-    git "remote add origin git@github.com:#{github_user}/#{repo}.git"
+    git "commit -m 'Initial Commit'"
+    # give the request a bit to go through
+    sleep 2
+    git "remote add origin https://github.com/#{github_user}/#{repo}.git"
     git_exec "push origin master"
   end
 end
@@ -215,10 +220,15 @@ desc "Forks a GitHub repository"
 usage "github fork"
 usage "github fork [user]/[repo]"
 command :fork do |user, repo|
+  # Welcome to Branch City - seriously, this needs to be fixed
   if repo.nil?
     if user
       user, repo = user.split('/')
+      if File.directory?(repo)
+        die "Directory already exists"
+      end
     else
+      # UNLESS ELSE WTF DOES THAT MEAN
       unless helper.remotes.empty?
         is_repo = true
         user = helper.owner
@@ -232,20 +242,20 @@ command :fork do |user, repo|
   # I'm not sure if this is supposed to be here
   # current_origin = git "config remote.origin.url"
   
-  output_json = sh "curl -F 'login=#{github_user}' -F 'token=#{github_token}' https://api.github.com/repos/#{user}/#{repo}/forks"
+  output_json = sh "curl -X POST https://api.github.com/repos/#{user}/#{repo}/forks?access_token=#{github_token}"
   output = JSON.parse(output_json)
   if !output
     die "Could not get a JSON response"
   elsif output["error"] 
     die output["error"]
   else
-    url = "git@github.com:#{github_user}/#{repo}.git"
+    url = "https://github.com/#{github_user}/#{repo}.git"
     if is_repo
       git "config remote.origin.url #{url}"
       git "config remote.upstream.url #{current_origin}"
       puts "#{user}/#{repo} forked"
     else
-      puts "Giving GitHub a moment to create the fork..."
+      puts Paint['Giving GitHub a moment to create the fork...', :yellow]
       sleep 3
       git_exec "clone #{url}"
     end
