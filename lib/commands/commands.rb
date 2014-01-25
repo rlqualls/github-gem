@@ -121,7 +121,8 @@ command :pull do |user, branch|
   # end
 
   branch ||= 'master'
-  GitHub.invoke(:track, user) unless helper.tracking?(user)
+  # This doesn't match the test and isn't clear about why tracking is necessary for pull
+  # GitHub.invoke(:track, user) unless helper.tracking?(user)
 
   die "Unable to switch branches, your current branch has uncommitted changes" if helper.branch_dirty?
 
@@ -246,13 +247,14 @@ command :fork do |user, repo|
   output = JSON.parse(output_json)
   if !output
     die "Could not get a JSON response"
-  elsif output["error"] 
-    die output["error"]
+  elsif output.is_a?(Hash) && output["message"] == "Not Found" 
+    die "Invalid call to GitHub API v3"
   else
     url = "https://github.com/#{github_user}/#{repo}.git"
+    upstream_url = "https://github.com/#{user}/#{repo}.git"
     if is_repo
       git "config remote.origin.url #{url}"
-      git "config remote.upstream.url #{current_origin}"
+      git "config remote.upstream.url #{upstream_url}"
       puts "#{user}/#{repo} forked"
     else
       puts Paint['Giving GitHub a moment to create the fork...', :yellow]
