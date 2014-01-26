@@ -299,7 +299,12 @@ command :search do |query|
   end
   if data && data["total_count"] > 0
     repos = data["items"]
-    puts repos.map { |r| "#{Paint[r['full_name'], :blue]} - #{r['description']}"}
+    result_list = repos.map do |r| 
+      description = r['description']
+      full_name = r['full_name']
+      "#{Paint[full_name, :blue]} - #{description}"
+    end
+    puts result_list
   else
     puts "No results found"
   end
