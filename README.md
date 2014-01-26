@@ -1,5 +1,9 @@
 # The GitHub Gem
 
+[![Build Status](https://travis-ci.org/rlqualls/github-gem.png?branch=master)](https://travis-ci.org/rlqualls/github-gem)
+
+[![Coverage Status](https://coveralls.io/repos/rlqualls/github-gem/badge.png?branch=master)](https://coveralls.io/r/rlqualls/github-gem?branch=master)
+
 [![Code Climate](https://codeclimate.com/github/rlqualls/github-gem.png)](https://codeclimate.com/github/rlqualls/github-gem)
 
 The GitHub gem is back! It's been over 2 years, but It's time for gh's return
