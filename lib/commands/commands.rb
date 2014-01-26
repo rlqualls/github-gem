@@ -306,6 +306,8 @@ end
 
 desc "Output a project's README"
 usage "github readme [user]/[repo]"
+usage "github readme [user] [repo]"
+usage "github readme"
 command :readme do |user, repo|
   if user.nil?
     # Show top-level readme in current repo if there is one

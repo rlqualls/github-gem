@@ -64,6 +64,8 @@ Available commands:
                        % github pull-request [user] [branch]
   readme            => Output a project's README
                        % github readme [user]/[repo]
+                       % github readme [user] [repo]
+                       % github readme
   search            => Search GitHub for the given repository name.
                        % github search [query]
                        --language: Only show results for a particular language
