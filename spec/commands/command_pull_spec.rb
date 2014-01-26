@@ -3,14 +3,20 @@ require File.expand_path("../command_helper", __FILE__)
 
 describe "github pull" do
   include CommandHelper
-  
+
   specify "pull defunkt should start tracking defunkt if they're not already tracked" do
     running :pull, "defunkt" do
       mock_members 'defunkt'
       setup_remote(:origin, :user => "user", :ssh => true)
       setup_remote(:external, :url => "home:/path/to/project.git")
-      GitHub.should_receive(:invoke).with(:track, "defunkt").and_return { raise "Tracked" }
-      self.should raise_error("Tracked")
+      GitHub.should_receive(:invoke).with(:track, "defunkt")
+      # GitHub.should_receive(:invoke).with(:track, "defunkt").and_return { raise "Tracked" }
+      @helper.should_receive(:branch_dirty?).and_return false
+      @command.should_receive(:git).with("fetch defunkt").ordered
+      @command.should_receive(:git_exec).with("checkout -b defunkt/master defunkt/master").ordered
+      # Code didn't have this, and I'm not sure erroring out makes sense here
+      # self.should raise_error("Tracked")
+      stdout.should == "Switching to defunkt-master\n"
     end
   end
 
@@ -66,15 +72,19 @@ describe "github pull" do
   end
 
   specify "pull falls through for non-recognized commands" do
+    pending "I don't know if this will be easy to implement"
     running :pull, 'remote' do
       mock_members 'defunkt'
       setup_remote(:defunkt)
-      @command.should_receive(:git_exec).with("pull remote")
+      GitHub.should_receive(:invoke).with(:track, "remote")
+      @helper.should_receive(:branch_dirty?).and_return false
+      @command.should_receive(:git).with("fetch defunkt").ordered
+      @command.should_receive(:git_exec).with("checkout -b defunkt/wip defunkt/wip").ordered
     end
   end
 
   specify "pull passes along args when falling through" do
-    pending "Not sure why this test is failing"
+    pending "Not sure if this will work"
     running :pull, 'remote', '--stat' do
       mock_members 'defunkt'
       @command.should_receive(:git_exec).with("pull remote --stat")

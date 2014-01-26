@@ -101,6 +101,7 @@ describe "github issues" do
           "id": 26263636,
           "number": 414,
           "title": "Config section missing for web hooks in GitHub Enterprise",
+          "body": "I have a nasty bug",
           "user": {
             "login": "amaltson",
             "id": 167443,
@@ -140,6 +141,7 @@ describe "github issues" do
       JSON
       api_url = "https://api.github.com/repos/#{options[:user]}/#{options[:project]}/issues?state=#{state}"
       @command.should_receive(:open).with(api_url).and_return(json)
+      IO.should_receive(:popen).with("less -r", "w")
     end
   end
 end

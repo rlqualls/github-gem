@@ -33,14 +33,13 @@ Available commands:
   info              => Info about this project.
   issues            => Project issues tools - sub-commands : open [user],
                        closed [user]
+                       % github issues [type]
                        --after: Only show issues updated after a certain date
                        --label: Only show issues with a certain label
-  network           => Project network tools - sub-commands : web [user],
-list,
+  network           => Project network tools - sub-commands : web [user], list,
                        fetch, commits
                        --after : Only show commits after a certain date
-                       --applies : Filter commits to patches that apply
-cleanly
+                       --applies : Filter commits to patches that apply cleanly
                        --author : Filter commits on a email address of author
                        --before : Only show commits before a certain date
                        --cache : Use the network data even if it's expired
@@ -63,8 +62,11 @@ cleanly
                          master.
   pull-request      => Generate the text for a pull request.
                        % github pull-request [user] [branch]
+  readme            => Output a project's README
+                       % github readme [user]/[repo]
   search            => Search GitHub for the given repository name.
                        % github search [query]
+                       --language: Only show results for a particular language
   track             => Track another user's repository.
                        % github track remote [user]
                        % github track remote [user/repo]

@@ -58,10 +58,10 @@ describe GitHub::Helper do
       @issue = {}
       @issue['number'] = 1234
       @issue['title'] = "Isaac Asimov's Science Fiction Magazine"
-      @issue['votes'] = 99
+      @issue['body'] = "Issue body"
     end
 
-    specify "the title, number of votes and ticket number should appear" do
+    specify "the title and ticket number should appear" do
       @helper.format_issue(@issue, {}).should =~ /Issue #1234 #{Regexp.escape(Paint["Isaac Asimov's Science Fiction Magazine", :blue])}/
     end
 
@@ -345,7 +345,6 @@ random
 
   helper :open do
     it "should launch the URL when Launchy is installed" do
-    pending("Opens in current browser feature conflicts with this test")
       begin
         # tricking launchy into thinking there is always a browser
         ENV['LAUNCHY_BROWSER'] = dummy_browser = __FILE__
@@ -362,7 +361,6 @@ random
     end
 
     it "should fail when Launchy is not installed" do
-    pending("Opens in current browser feature conflicts with this test")
       @helper.should_receive(:gem).with('launchy').and_raise(Gem::LoadError)
       STDERR.should_receive(:puts).with("Sorry, you need to install launchy: `gem install launchy`")
       @helper.open "http://www.google.com"
