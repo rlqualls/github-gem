@@ -453,14 +453,68 @@ helper :format_issue do |issue, options|
   report << "*  Labels: #{issue['labels'].join(', ')}" if issue['labels'] && issue['labels'].length > 0
   report << ""
 
-  # TODO: This should go in its own thing
-  formatter = Rouge::Formatters::Terminal256.new
-  lexer = Rouge::Lexers::Markdown.new
-  formatted_body = formatter.format(lexer.lex(issue['body']))
-
+  # Apply syntax highlighting to issue
+  formatted_body = color_text(issue['body'], "md")
   report << formatted_body
   report << ""
   report.join("\n")
+end
+
+helper :color_formatter do
+  @formatter ||= Rouge::Formatters::Terminal256.new
+end
+
+helper :color_lexer do |extension|
+  case extension
+  when "rb", "gemspec"
+    Rouge::Lexers::Ruby.new
+  when "erb"
+    Rouge::Lexers::ERB.new
+  when "haml"
+    Rouge::Lexers::Haml.new
+  when "ex", "exs"
+    Rouge::Lexers::Elixir.new
+  when "erl", "hrl"
+    Rouge::Lexers::Erlang.new
+  when "md"
+    Rouge::Lexers::Markdown.new
+  when "py"
+    Rouge::Lexers::Python.new
+  when "js"
+    Rouge::Lexers::Javascript.new
+  when "coffee"
+    Rouge::Lexers::Coffeescript.new
+  when "java"
+    Rouge::Lexers::Java.new
+  when "ini"
+    Rouge::Lexers::INI.new
+  when "c"
+    Rouge::Lexers::C.new
+  when "cpp"
+    Rouge::Lexers::Cpp.new
+  when "go"
+    Rouge::Lexers::Go.new
+  when "html"
+    Rouge::Lexers::HTML.new
+  when "css"
+    Rouge::Lexers::CSS.new
+  when "yaml"
+    Rouge::Lexers::YAML.new
+  when "sh"
+    Rouge::Lexers::Shell.new
+  when "diff", "patch"
+    Rouge::Lexers::Diff.new
+  when "cl", "lisp", "el"
+    Rouge::Lexers::CommonLisp.new
+  when "hs"
+    Rouge::Lexers::Haskell.new
+  end
+end
+
+helper :color_text do |text, extension|
+  formatter = color_formatter
+  lexer = color_lexer(extension)
+  formatter.format(lexer.lex(text))
 end
 
 # Converts an array of {"name" => "foo", "description" => "some description"} items

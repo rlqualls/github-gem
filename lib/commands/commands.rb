@@ -322,9 +322,7 @@ command :readme do |user, repo|
     readme_content = Base64.decode64(data["content"]).force_encoding("UTF-8")
   end
   # die "Usage: github readme [user]/[repo]" if user.nil?
-  formatter = Rouge::Formatters::Terminal256.new
-  lexer = Rouge::Lexers::Markdown.new
-  formatted_content = formatter.format(lexer.lex(readme_content))
+  formatted_content = helper.color_text(readme_content, "md")
   IO.popen("less -r", "w") { |p| p.puts formatted_content }
 end
 
@@ -332,6 +330,7 @@ desc "View a file in the console"
 usage "github view [user]/[repo]/[path]"
 command :view do |path|
   user, repo, path = path.split("/", 3)
+  extension = path.split(".").last
   headers = { "Accept" =>"application/vnd.github.v3.text" }
   begin
   data = JSON.parse(open("https://api.github.com/repos/#{user}/#{repo}/contents/#{path}", headers).read)
@@ -339,8 +338,6 @@ command :view do |path|
     die "Invalid user, repository, or file path"
   end
   content = Base64.decode64(data["content"]).force_encoding("UTF-8")
-  formatter = Rouge::Formatters::Terminal256.new
-  lexer = Rouge::Lexers::Markdown.new
-  formatted_content = formatter.format(lexer.lex(content))
+  formatted_content = helper.color_text(content, extension)
   IO.popen("less -r", "w") { |p| p.puts formatted_content }
 end
