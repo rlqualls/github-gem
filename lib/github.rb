@@ -10,6 +10,7 @@ require 'json'
 require 'yaml'
 require 'text/format'
 require 'paint'
+require 'base64'
 
 ##
 # Starting simple.

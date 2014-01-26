@@ -304,3 +304,15 @@ command :search do |query|
     puts "No results found"
   end
 end
+
+desc "Output a project's README"
+usage "github readme [user]/[repo]"
+command :readme do |user, repo|
+  die "Usage: github readme [user]/[repo]" if user.nil?
+  user, repo = user.split("/") if repo.nil?
+  headers = { "Accept" =>"application/vnd.github.v3.text" }
+  data = JSON.parse(open("https://api.github.com/repos/#{user}/#{repo}/readme", headers).read)
+  die "Could not get a JSON response" unless data
+  readme_content = Base64.decode64(data["content"])
+  puts readme_content
+end
