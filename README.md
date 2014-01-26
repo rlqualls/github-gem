@@ -2,10 +2,18 @@
 
 [![Code Climate](https://codeclimate.com/github/rlqualls/github-gem.png)](https://codeclimate.com/github/rlqualls/github-gem)
 
-The official github CLI gem was pretty old and still using API V1/V2, so I'm updating
-it. 
+The GitHub gem is back! It's been over 2 years, but It's time for gh's return
+to glory as the best GitHub command line tool.
 
-The original source code can be found at [defunkt/github-gem](https://github.com/defunkt/github-gem).
+The original project can be found at [defunkt/github-gem](https://github.com/defunkt/github-gem).
+
+## Goals
+
+  - Return the GitHub gem to full functionality
+  - Reduce code complexity/duplication
+  - Minor improvements like color highlighting and intelligent defaults
+  - See if it can be go up on RubyGems as github 0.8+
+  - Add significant features in 1.0 or fork 
 
 ## Installation (for now)
 
@@ -14,7 +22,9 @@ The original source code can be found at [defunkt/github-gem](https://github.com
     $ bundle
     $ rake install
 
-## Pulling Upstream Changes
+## Original Usage Instructions
+
+### Pulling Upstream Changes
 
 Let's say you just forked `github-gem` on GitHub from defunkt.
 
@@ -40,7 +50,7 @@ master branch, use the `merge` flag:
 
     $ gh pull --merge defunkt
 
-## Fetching and Evaluating Downstream Changes
+### Fetching and Evaluating Downstream Changes
 
 If you are the maintainer of a project, you will often need to fetch commits
 from other developers, evaluate and/or test them, then merge them into the
@@ -70,7 +80,7 @@ Test/analyze again and if everything is ok:
 The latter command will be a fast-forward merge since you already did the
 real merge previously.
 
-## Network Patch Queue
+### Network Patch Queue
 
 The github gem can also show you all of the commits that exist on any fork of your
 project (your network) that you don't have in your branch yet.  In order to see
@@ -142,7 +152,7 @@ the shas instead of the pretty printout here, so you can pipe that into other
 scripts (like 'github ignore' for instance).
 
 
-## Issues
+### Issues
 
 If you'd like to see a summary of the open issues on your project:
 
