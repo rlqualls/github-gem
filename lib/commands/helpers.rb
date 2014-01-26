@@ -466,7 +466,7 @@ end
 
 helper :color_lexer do |extension|
   case extension
-  when "rb", "gemspec"
+  when "rb", "gemspec", "Gemfile"
     Rouge::Lexers::Ruby.new
   when "erb"
     Rouge::Lexers::ERB.new
@@ -508,6 +508,8 @@ helper :color_lexer do |extension|
     Rouge::Lexers::CommonLisp.new
   when "hs"
     Rouge::Lexers::Haskell.new
+  else
+    Rouge::Lexers::Markdown.new
   end
 end
 
