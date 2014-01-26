@@ -452,7 +452,13 @@ helper :format_issue do |issue, options|
   report << "*  Last updated #{distance_of_time(issue['updated_at'], Time.now)}" if issue['updated_at']
   report << "*  Labels: #{issue['labels'].join(', ')}" if issue['labels'] && issue['labels'].length > 0
   report << ""
-  report << issue['body']
+
+  # TODO: This should go in its own thing
+  formatter = Rouge::Formatters::Terminal256.new
+  lexer = Rouge::Lexers::Markdown.new
+  formatted_body = formatter.format(lexer.lex(issue['body']))
+
+  report << formatted_body
   report << ""
   report.join("\n")
 end
@@ -486,10 +492,12 @@ helper :filter_issue do |issue, options|
 end
 
 helper :print_issues do |issues, options|
+  output = ""
   issues.sort_by {|issue| issue['updated_at']}.reverse.each do |issue|
     next if filter_issue(issue, options)
-    puts "-----"
-    puts format_issue(issue, options)
+    output << "-----"
+    output << format_issue(issue, options)
   end
-  puts "-----"
+  output << "-----"
+  IO.popen("less -r", "w") { |p| p.puts output }
 end
