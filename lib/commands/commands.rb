@@ -313,6 +313,9 @@ command :readme do |user, repo|
   headers = { "Accept" =>"application/vnd.github.v3.text" }
   data = JSON.parse(open("https://api.github.com/repos/#{user}/#{repo}/readme", headers).read)
   die "Could not get a JSON response" unless data
-  readme_content = Base64.decode64(data["content"])
-  puts readme_content
+  readme_content = Base64.decode64(data["content"]).force_encoding("UTF-8")
+  formatter = Rouge::Formatters::Terminal256.new
+  lexer = Rouge::Lexers::Markdown.new
+  formatted_content = formatter.format(lexer.lex(readme_content))
+  IO.popen("less -r", "w") { |p| p.puts formatted_content }
 end
