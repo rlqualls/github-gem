@@ -542,6 +542,26 @@ helper :format_list do |items|
   end.join("\n")
 end
 
+helper :format_commit_log do |data|
+  log = ""
+  data.each do |item|
+    sha = item["sha"]
+    commit = item["commit"]
+    author = commit["author"]
+    name = author["name"]
+    date = author["date"]
+    email = author["email"]
+    message = commit["message"].gsub("\n", "\n    ")
+    log << Paint["commit #{sha}", :yellow] << "\n"
+    log << "Author: #{name} <#{email}>\n"
+    log << "Date: #{date}\n"
+    log << "\n"
+    log << "    #{Paint[message, "grey52"]}\n"
+    log << "\n"
+  end
+  return log
+end
+
 helper :filter_issue do |issue, options|
   if options[:after] && ! options[:after].instance_of?(Time)
     options[:after] = Time.parse(options[:after]) rescue (puts 'cant parse after date')

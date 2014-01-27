@@ -36,6 +36,9 @@ Available commands:
                        % github issues [type]
                        --after: Only show issues updated after a certain date
                        --label: Only show issues with a certain label
+  log               => Show a project's commit log
+                       % github log [user]/[repo]
+                       % github log [user] [repo]
   network           => Project network tools - sub-commands : web [user], list,
                        fetch, commits
                        --after : Only show commits after a certain date
