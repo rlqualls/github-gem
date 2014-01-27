@@ -65,6 +65,9 @@ Available commands:
                          master.
   pull-request      => Generate the text for a pull request.
                        % github pull-request [user] [branch]
+  pulls             => Show a project's pull requests
+                       % github pulls [user]/[repo]
+                       % github pulls [user] [repo]
   readme            => Output a project's README
                        % github readme [user]/[repo]
                        % github readme [user] [repo]

@@ -562,6 +562,28 @@ helper :format_commit_log do |data|
   return log
 end
 
+helper :format_pull_requests do |data|
+  report = ""
+  data.each do |pull|
+    title = pull["title"] 
+    body = pull["body"]
+    date = pull["updated_at"]
+    color_body = color_text(body, "md")
+    user = pull["user"]
+    user_name = user["login"]
+    report << "----------------\n"
+    report << "Title: #{Paint[title, :bright, :blue]}\n"
+    report << "User:  #{user_name}\n"
+    report << "Last Update: #{Paint[date, :green]}\n"
+    unless body.empty?
+      report << "\n"
+      report << "#{color_body}\n"
+    end
+    report << "\n"
+  end
+  return report
+end
+
 helper :filter_issue do |issue, options|
   if options[:after] && ! options[:after].instance_of?(Time)
     options[:after] = Time.parse(options[:after]) rescue (puts 'cant parse after date')
