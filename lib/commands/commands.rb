@@ -314,7 +314,7 @@ command :search do |query|
       full_name = r['full_name']
       "#{Paint[full_name, :blue]} - #{description}"
     end
-    puts result_list
+    helper.terminal_display(result_list)
   else
     puts "No results found"
   end
