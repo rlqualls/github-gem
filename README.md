@@ -1,23 +1,17 @@
 # The GitHub Gem
 
 [![Build Status](https://travis-ci.org/rlqualls/github-gem.png?branch=master)](https://travis-ci.org/rlqualls/github-gem)
-
 [![Coverage Status](https://coveralls.io/repos/rlqualls/github-gem/badge.png?branch=master)](https://coveralls.io/r/rlqualls/github-gem?branch=master)
-
 [![Code Climate](https://codeclimate.com/github/rlqualls/github-gem.png)](https://codeclimate.com/github/rlqualls/github-gem)
 
-The GitHub gem is back! It's been over 2 years, but It's time for gh's return
-to glory as the best GitHub command line tool.
+The GitHub gem is back!
 
 The original project can be found at [defunkt/github-gem](https://github.com/defunkt/github-gem).
 
-## Goals
+## Features
 
-  - Return the GitHub gem to full functionality
-  - Reduce code complexity/duplication
-  - Minor improvements like color highlighting and intelligent defaults
-  - See if it can be go up on RubyGems as github 0.8+
-  - Add significant features in 1.0 or fork 
+  - Syntax highlighting for most things
+  - More commands (pulls, log, view, readme)
 
 ## Installation (for now)
 
