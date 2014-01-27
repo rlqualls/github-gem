@@ -323,7 +323,7 @@ command :readme do |user, repo|
   end
   # die "Usage: github readme [user]/[repo]" if user.nil?
   formatted_content = helper.color_text(readme_content, "md")
-  IO.popen("less -r", "w") { |p| p.puts formatted_content }
+  helper.terminal_display(formatted_content)
 end
 
 desc "View a file in the console"
@@ -363,5 +363,5 @@ command :view do |path|
     content = Base64.decode64(data["content"]).force_encoding("UTF-8")
     formatted_content = helper.color_text(content, extension)
   end
-  IO.popen("less -r", "w") { |p| p.puts formatted_content }
+  helper.terminal_display(formatted_content)
 end

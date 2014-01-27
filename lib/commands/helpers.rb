@@ -519,6 +519,10 @@ helper :color_text do |text, extension|
   formatter.format(lexer.lex(text))
 end
 
+helper :terminal_display do |text|
+  IO.popen("less -r", "w") { |p| p.puts text }
+end
+
 # Converts an array of {"name" => "foo", "description" => "some description"} items
 # as a string list like:
 #   foo     # some description
