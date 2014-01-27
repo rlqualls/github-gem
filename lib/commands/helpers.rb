@@ -555,9 +555,9 @@ helper :print_issues do |issues, options|
   output = ""
   issues.sort_by {|issue| issue['updated_at']}.reverse.each do |issue|
     next if filter_issue(issue, options)
-    output << "-----"
+    output << "\n-----"
     output << format_issue(issue, options)
   end
   output << "-----"
-  IO.popen("less -r", "w") { |p| p.puts output }
+  terminal_display(output)
 end
