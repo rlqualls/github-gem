@@ -1,3 +1,4 @@
+# home
 desc "Open this repo's master branch in a web browser."
 command :home do |user|
   if helper.project
@@ -7,6 +8,7 @@ command :home do |user|
   end
 end
 
+# admin
 desc "Open this repo's Admin panel a web browser."
 command :admin do |user|
   if helper.project
@@ -17,6 +19,7 @@ command :admin do |user|
   end
 end
 
+# config
 desc "Automatically set configuration info, or pass args to specify."
 usage "github config [my_username] [my_repo_name]"
 command :config do |user, repo|
@@ -27,6 +30,7 @@ command :config do |user, repo|
   puts "Configured with github.user #{user}, github.repo #{repo}"
 end
 
+# browse
 desc "Open this repo in a web browser."
 usage "github browse [user] [branch]"
 command :browse do |user, branch|
@@ -43,12 +47,14 @@ command :browse do |user, branch|
   end
 end
 
+# open
 desc 'Open the given user/project in a web browser'
 usage 'github open [user/project]'
 command :open do |arg|
   helper.open "https://github.com/#{arg}"
 end
 
+# info
 desc "Info about this project."
 command :info do
   puts "== Info for #{helper.project}"
@@ -59,6 +65,7 @@ command :info do
   end
 end
 
+# track
 desc "Track another user's repository."
 usage "github track remote [user]"
 usage "github track remote [user/repo]"
@@ -86,12 +93,14 @@ command :track do |remote, user|
   end
 end
 
+# fetch_all
 desc "Fetch all refs from a user"
 command :fetch_all do |user|
   GitHub.invoke(:track, user) unless helper.tracking?(user)
   git "fetch #{user}"
 end
 
+# fetch
 desc "Fetch from a remote to a local branch."
 command :fetch do |user, branch|
   die "Specify a user to pull from" if user.nil?
@@ -108,6 +117,7 @@ command :fetch do |user, branch|
   git_exec "checkout #{user}/#{branch}"
 end
 
+# pull
 desc "Pull from a remote."
 usage "github pull [user] [branch]"
 flags :merge => "Automatically merge remote's changes into your master."
@@ -129,6 +139,7 @@ command :pull do |user, branch|
   end
 end
 
+# clone
 desc "Clone a repo. Uses ssh if current user is "
 usage "github clone [user] [repo] [dir]"
 flags :ssh => "Clone using the git@github.com style url."
@@ -166,6 +177,7 @@ command :clone do |user, repo, dir|
   end
 end
 
+# pull-request
 desc "Generate the text for a pull request."
 usage "github pull-request [user] [branch]"
 command :'pull-request' do |user, branch|
@@ -179,6 +191,7 @@ command :'pull-request' do |user, branch|
   end
 end
 
+# create
 desc "Create a new, empty GitHub repository"
 usage "github create [repo]"
 flags :markdown => 'Create README.markdown'
@@ -211,6 +224,7 @@ command :create do |repo|
   end
 end
 
+# fork
 desc "Forks a GitHub repository"
 usage "github fork"
 usage "github fork [user]/[repo]"
@@ -258,6 +272,7 @@ command :fork do |user, repo|
   end
 end
 
+# create-from-local
 desc "Create a new GitHub repository from the current local repository"
 usage "github create-from-local [repo_name]"
 flags :private => 'Create private repository'
@@ -281,6 +296,7 @@ command :'create-from-local' do |repo_name|
   end
 end
 
+# search
 desc "Search GitHub for the given repository name."
 flags :language => "Only show results for a particular language"
 usage "github search [query]"
@@ -304,6 +320,7 @@ command :search do |query|
   end
 end
 
+# readme
 desc "Output a project's README"
 usage "github readme [user]/[repo]"
 usage "github readme [user] [repo]"
@@ -326,6 +343,7 @@ command :readme do |user, repo|
   helper.terminal_display(formatted_content)
 end
 
+# view
 desc "View a file in the console"
 usage "github view [user]/[repo]/[path]"
 usage "github view [user]/[repo]"
