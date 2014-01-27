@@ -79,3 +79,5 @@ Available commands:
                        --ssh : Equivalent to --private
   view              => View a file in the console
                        % github view [user]/[repo]/[path]
+                       % github view [user]/[repo]
+                       % github view [user]
