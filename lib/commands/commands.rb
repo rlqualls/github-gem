@@ -300,6 +300,7 @@ end
 desc "Search GitHub for the given repository name."
 flags :language => "Only show results for a particular language"
 usage "github search [query]"
+usage "github search --language=[language]"
 command :search do |query|
   die "Usage: github search [query]" if query.nil?
   if language = options[:language]

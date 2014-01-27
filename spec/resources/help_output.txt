@@ -68,6 +68,7 @@ Available commands:
                        % github readme
   search            => Search GitHub for the given repository name.
                        % github search [query]
+                       % github search --language=[language]
                        --language: Only show results for a particular language
   track             => Track another user's repository.
                        % github track remote [user]
