@@ -1,24 +1,3 @@
-# home
-desc "Open this repo's master branch in a web browser."
-command :home do |user|
-  if helper.project
-    homepage = helper.homepage_for(user || helper.owner, 'master')
-    homepage.gsub!(%r{/tree/master$}, '')
-    helper.open homepage
-  end
-end
-
-# admin
-desc "Open this repo's Admin panel a web browser."
-command :admin do |user|
-  if helper.project
-    homepage = helper.homepage_for(user || helper.owner, 'master')
-    homepage.gsub!(%r{/tree/master$}, '')
-    homepage += "/admin"
-    helper.open homepage
-  end
-end
-
 # config
 desc "Automatically set configuration info, or pass args to specify."
 usage "github config [my_username] [my_repo_name]"
@@ -30,30 +9,6 @@ command :config do |user, repo|
   puts "Configured with github.user #{user}, github.repo #{repo}"
 end
 
-# browse
-desc "Open this repo in a web browser."
-usage "github browse [user] [branch]"
-command :browse do |user, branch|
-  if helper.project
-    # if one arg given, treat it as a branch name
-    # unless it maches user/branch, then split it
-    # if two args given, treat as user branch
-    # if no args given, use defaults
-    user, branch = user.split("/", 2) if branch.nil? unless user.nil?
-    branch = user and user = nil if branch.nil?
-    user ||= helper.branch_user
-    branch ||= helper.branch_name
-    helper.open helper.homepage_for(user, branch)
-  end
-end
-
-# open
-desc 'Open the given user/project in a web browser'
-usage 'github open [user/project]'
-command :open do |arg|
-  helper.open "https://github.com/#{arg}"
-end
-
 # info
 desc "Info about this project."
 command :info do
@@ -63,38 +18,6 @@ command :info do
   helper.tracking.sort { |a, b| a == helper.origin ? -1 : b == helper.origin ? 1 : a.to_s <=> b.to_s }.each do |(name,user_or_url)|
     puts " - #{user_or_url} (as #{name})"
   end
-end
-
-# log
-desc "Show a project's commit log"
-usage "github log [user]/[repo]"
-usage "github log [user] [repo]"
-command :log do |user, repo|
-  user,repo = user.split("/", 2) if repo.nil?
-  api_url = "https://api.github.com/repos/#{user}/#{repo}/commits"
-  begin
-  data = JSON.parse(open(api_url).read)
-  rescue OpenURI::HTTPError
-    die "Invalid user or repository"
-  end
-  formatted_log = helper.format_commit_log(data)
-  helper.terminal_display(formatted_log)
-end
-
-# pulls
-desc "Show a project's pull requests"
-usage "github pulls [user]/[repo]"
-usage "github pulls [user] [repo]"
-command :pulls do |user,repo|
-  user,repo = user.split("/", 2) if repo.nil?
-  api_url = "https://api.github.com/repos/#{user}/#{repo}/pulls"
-  begin
-  data = JSON.parse(open(api_url).read)
-  rescue OpenURI::HTTPError
-    die "Invalid user or repository"
-  end
-  formatted_report = helper.format_pull_requests(data)
-  helper.terminal_display(formatted_report)
 end
 
 # track
@@ -351,68 +274,4 @@ command :search do |query|
   else
     puts "No results found"
   end
-end
-
-# readme
-desc "Output a project's README"
-usage "github readme [user]/[repo]"
-usage "github readme [user] [repo]"
-usage "github readme"
-command :readme do |user, repo|
-  if user.nil?
-    # Show top-level readme in current repo if there is one
-    # This works from anywhere inside the repo
-    readme_path = sh "git ls-files $(git rev-parse --show-toplevel)/README.*"
-    readme_content = File.open(readme_path, "r").read
-  else
-    user, repo = user.split("/") if repo.nil?
-    headers = { "Accept" =>"application/vnd.github.v3.text" }
-    data = JSON.parse(open("https://api.github.com/repos/#{user}/#{repo}/readme", headers).read)
-    die "Could not get a JSON response" unless data
-    readme_content = Base64.decode64(data["content"]).force_encoding("UTF-8")
-  end
-  # die "Usage: github readme [user]/[repo]" if user.nil?
-  formatted_content = helper.color_text(readme_content, "md")
-  helper.terminal_display(formatted_content)
-end
-
-# view
-desc "View a file in the console"
-usage "github view [user]/[repo]/[path]"
-usage "github view [user]/[repo]"
-usage "github view [user]"
-command :view do |path|
-  user, repo, path = path.split("/", 3)
-  # If just a user
-  if repo.nil?
-    url = "https://api.github.com/users/#{user}/repos" 
-  else
-    url = "https://api.github.com/repos/#{user}/#{repo}/contents/#{path}"
-  end
-  begin
-  headers = { "Accept" =>"application/vnd.github.v3.text" }
-  data = JSON.parse(open(url, headers).read)
-  rescue OpenURI::HTTPError
-    die "Invalid user, repository, or file path"
-  end
-  # The path was a user, repository, or directory
-  if data.is_a? Array
-    if data[0]["description"]
-      # The path was a user - list repos
-      formatted_content = data.map do |item| 
-          "#{Paint[item['name'], :blue]} -  #{item['description']}"
-      end
-    else
-      # The path was a repository - list top level files
-      formatted_content = data.map do |item| 
-          "#{item['name']}"
-      end
-    end
-  # The path was a file
-  else
-    extension = path.split(".").last
-    content = Base64.decode64(data["content"]).force_encoding("UTF-8")
-    formatted_content = helper.color_text(content, extension)
-  end
-  helper.terminal_display(formatted_content)
 end

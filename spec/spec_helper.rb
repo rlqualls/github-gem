@@ -109,6 +109,10 @@ Spec::Runner.configure do |configuration|
       load 'commands.rb'
       load 'network.rb'
       load 'issues.rb'
+      load 'web.rb'
+      load 'pulls.rb'
+      load 'readme.rb'
+      load 'log.rb'
     end
   end
 
