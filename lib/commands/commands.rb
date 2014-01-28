@@ -114,7 +114,7 @@ command :track do |remote, user|
   die "Specify a user to track" if user.nil?
   user, repo = user.split("/", 2)
   die "Already tracking #{user}" if helper.tracking?(user)
-  repo = @helper.project if repo.nil?
+  repo = helper.project if repo.nil?
   repo.chomp!(".git")
   remote ||= user
 

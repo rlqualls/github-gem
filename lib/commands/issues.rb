@@ -8,13 +8,13 @@ command :issues do |command, user|
 
   case command
   when 'open', 'closed'
-    report = JSON.parse(open(@helper.list_issues_for(user, command)).read)
+    report = JSON.parse(open(helper.list_issues_for(user, command)).read)
     helper.print_issues(report, options)
   when 'web'
     helper.open helper.issues_page_for(user)
   when nil
     # default to open issues
-    report = JSON.parse(open(@helper.list_issues_for(user, 'open')).read)
+    report = JSON.parse(open(helper.list_issues_for(user, 'open')).read)
     helper.print_issues(report, options)
   else
     helper.print_issues_help
