@@ -105,14 +105,10 @@ Spec::Runner.configure do |configuration|
   # load this here so it's covered by the `` guard
   configuration.prepend_before(:all) do
     module GitHub
-      load 'helpers.rb'
-      load 'commands.rb'
-      load 'network.rb'
-      load 'issues.rb'
-      load 'web.rb'
-      load 'pulls.rb'
-      load 'readme.rb'
-      load 'log.rb'
+      Dir[BasePath + "/commands/**"].each do |command_path|
+        file_name = File.basename(command_path)
+        load file_name
+      end
     end
   end
 

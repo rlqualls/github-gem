@@ -16,18 +16,13 @@ module CommandHelper
     end
 
     def run
-      self.instance_eval &@block
+      self.instance_eval(&@block)
       mock_remotes unless @remotes.nil?
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/commands.rb")
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/helpers.rb")
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/network.rb")
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/issues.rb")
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/web.rb")
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/readme.rb")
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/view.rb")
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/log.rb")
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/pulls.rb")
-      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/command.rb")
+
+      Dir[GitHub::BasePath + "/commands/**"].each do |command_path|
+        GitHub.should_receive(:load).with(command_path)
+      end
+
       args = @args.clone
       GitHub.parse_options(args) # strip out the flags
       GitHub.should_receive(:invoke).with(@cmd_name, *args).and_return do
