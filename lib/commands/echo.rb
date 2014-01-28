@@ -1,8 +1,10 @@
-desc "View a user, repository, directory, or file in the console with less"
-usage "github view [user]/[repo]/[path]"
-usage "github view [user]/[repo]"
-usage "github view [user]"
-command :view do |path|
+# NOTE: This is duplication of view except for how output is displayed
+desc "Echo a user, repository, directory, or file to the console"
+usage "github echo [user]/[repo]/[path]"
+# No point in repeating the help for the view command
+# usage "github echo [user]/[repo]"
+# usage "github echo [user]"
+command :echo do |path|
   user, repo, path = path.split("/", 3)
   # If just a user
   if repo.nil?
@@ -35,5 +37,5 @@ command :view do |path|
     content = Base64.decode64(data["content"]).force_encoding("UTF-8")
     formatted_content = helper.color_text(content, extension)
   end
-  helper.terminal_display(formatted_content)
+  puts formatted_content
 end
