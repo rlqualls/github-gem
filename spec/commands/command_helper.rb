@@ -19,9 +19,13 @@ module CommandHelper
       self.instance_eval(&@block)
       mock_remotes unless @remotes.nil?
 
-      Dir[GitHub::BasePath + "/commands/**"].each do |command_path|
-        GitHub.should_receive(:load).with(command_path)
-      end
+      helpers_path = GitHub::BasePath + "/commands/helpers.rb"
+      command_path = GitHub::BasePath + "/commands/#{@cmd_name}.rb"
+      GitHub.should_receive(:load).with(helpers_path)
+      GitHub.should_receive(:load).with(command_path)
+      # Dir[GitHub::BasePath + "/commands/**"].each do |command_path|
+      #   GitHub.should_receive(:load).with(command_path)
+      # end
 
       args = @args.clone
       GitHub.parse_options(args) # strip out the flags
