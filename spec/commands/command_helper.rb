@@ -27,6 +27,7 @@ module CommandHelper
       GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/view.rb")
       GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/log.rb")
       GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/pulls.rb")
+      GitHub.should_receive(:load).with(GitHub::BasePath + "/commands/command.rb")
       args = @args.clone
       GitHub.parse_options(args) # strip out the flags
       GitHub.should_receive(:invoke).with(@cmd_name, *args).and_return do

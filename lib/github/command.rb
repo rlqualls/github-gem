@@ -29,6 +29,12 @@ module GitHub
       @helper ||= Helper.new
     end
 
+    def source
+      location = method(:command).source_location[0]
+      text = File.open(location, "r") { |io| io.read }
+      return text
+    end
+
     def options
       GitHub.options
     end
