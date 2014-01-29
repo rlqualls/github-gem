@@ -82,9 +82,6 @@ module GitHub
           end
         end
       end
-      if !find_command(command)
-        load BasePath + "/commands/#{command}.rb"
-      end
     end
     invoke(args.shift, *args)
   end
@@ -97,7 +94,16 @@ module GitHub
 
   def find_command(name)
     name = name.to_s
-    commands[name] || (commands[name] = GitCommand.new(name)) || commands['default']
+    if commands[name]
+      commands[name]
+    else
+      command_path = BasePath + "/commands/#{name}.rb"
+      if File.exist?(command_path)
+        load command_path
+      else
+        commands[name] = GitCommand.new(name)
+      end
+    end
   end
 
   def commands

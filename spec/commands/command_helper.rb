@@ -22,7 +22,21 @@ module CommandHelper
       helpers_path = GitHub::BasePath + "/commands/helpers.rb"
       command_path = GitHub::BasePath + "/commands/#{@cmd_name}.rb"
       GitHub.should_receive(:load).with(helpers_path)
-      GitHub.should_receive(:load).with(command_path)
+      
+      # Check for plugins in the manifest
+      manifest_path = GitHub.config_path + "/manifest"
+      if File.exist?(manifest_path)
+        manifest = File.read(manifest_path)
+        manifest.each_line do |line|
+          Dir[config_path + "/#{line.strip}/**"].each do |file_path|
+            GitHub.should_receive(:load).with(file_path)
+          end
+        end
+      end
+
+      if !GitHub.find_command(@cmd_name)
+        GitHub.should_receive(:load).with(command_path)
+      end
       # Dir[GitHub::BasePath + "/commands/**"].each do |command_path|
       #   GitHub.should_receive(:load).with(command_path)
       # end
