@@ -25,6 +25,7 @@ module GitHub
   extend self
 
   BasePath = File.expand_path(File.dirname(__FILE__)) + "/github"
+  ConfigPath = Dir.home + "/.githubgem"
 
   def command(command, options = {}, &block)
     command = command.to_s
@@ -66,11 +67,24 @@ module GitHub
     @debug = @options.delete(:debug)
     @learn = @options.delete(:learn)
     load BasePath + "/commands/helpers.rb"
+
     command = args.first
     if !command
       load BasePath + "/commands/help.rb"
     else
-      load BasePath + "/commands/#{command}.rb"
+      # Check for plugins in the manifest
+      manifest_path = config_path + "/manifest"
+      if File.exist?(manifest_path)
+        manifest = File.read(manifest_path)
+        manifest.each_line do |line|
+          Dir[config_path + "/#{line.strip}/**"].each do |file_path|
+            load file_path
+          end
+        end
+      end
+      if !find_command(command)
+        load BasePath + "/commands/#{command}.rb"
+      end
     end
     invoke(args.shift, *args)
   end
@@ -154,5 +168,9 @@ module GitHub
     file[0] =~ /^\// ? path = file : path = BasePath + "/commands/#{File.basename(file)}"
     data = File.read(path)
     GitHub.module_eval data, path
+  end
+  
+  def config_path
+    ConfigPath
   end
 end
