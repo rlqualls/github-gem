@@ -24,7 +24,7 @@ require 'rouge'
 module GitHub
   extend self
 
-  BasePath = File.expand_path(File.dirname(__FILE__))
+  BasePath = File.expand_path(File.dirname(__FILE__)) + "/github"
 
   def command(command, options = {}, &block)
     command = command.to_s
