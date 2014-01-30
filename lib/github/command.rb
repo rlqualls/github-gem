@@ -75,7 +75,7 @@ module GitHub
 
     def github_user
       user = git("config --get github.user")
-      if user.empty?
+      if user.nil? || user.empty?
         request_github_credentials
         user = github_user
       end
@@ -84,7 +84,7 @@ module GitHub
 
     def github_token
       token = git("config --get github.token")
-      if token.empty?
+      if token.nil? || token.empty?
         request_github_credentials
         token = github_token
       end
@@ -100,7 +100,7 @@ module GitHub
       puts("Press Enter to launch page in browser.")
       token = highline.ask("Token: ")
       while token.strip.empty?
-        helper.open "https://github.com/account"
+        helper.open_url "https://github.com/account"
         token = highline.ask("Token: ")
       end
       git("config --global github.token '#{token}'")

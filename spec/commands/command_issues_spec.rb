@@ -4,7 +4,7 @@ require File.expand_path("../command_helper", __FILE__)
 describe "github issues" do
   include CommandHelper
   
-  specify "issues with bad args should show help" do
+  specify "with bad args should show help" do
     running :issues, "dfgsg" do
       setup_url_for
       stdout.should == <<-EOS.gsub(/^      /, '')
@@ -20,35 +20,56 @@ describe "github issues" do
     end
   end
 
-  specify "issues without args prints open issues" do
+  specify "without args prints open issues" do
     running :issues do
       setup_url_for
       mock_issues_for(nil)
     end
   end
     
-  specify "issues open prints the open issues" do
+  specify "open prints the open issues" do
     running :issues, "open" do
       setup_url_for
       mock_issues_for nil, "open"
     end
   end
 
-  specify "issues closed prints the closed issues" do
+  specify "closed prints the closed issues" do
     running :issues, "closed" do
       setup_url_for
       mock_issues_for nil, "closed"
     end
   end
 
-  specify "issues web opens the project's issues page" do
+  specify "user/repo prints open and closed issues" do
+    running :issues, "user/repo" do
+      setup_url_for
+      mock_issues_for "user/repo"
+    end
+  end
+
+  specify "user/repo open prints open issues" do
+    running :issues, "user/repo", "open" do
+      setup_url_for
+      mock_issues_for "user/repo", "open"
+    end
+  end
+
+  specify "user/repo closed prints closed issues" do
+    running :issues, "user/repo", "closed" do
+      setup_url_for
+      mock_issues_for "user/repo", "closed"
+    end
+  end
+
+  specify "web opens the project's issues page" do
     running :issues, "web" do
       setup_url_for
       @helper.should_receive(:open_url).once.with("https://github.com/user/project/issues")
     end
   end
 
-  specify "issues web <user> opens the project's issues page for a user repo" do
+  specify "web <user> opens the project's issues page for a user repo" do
     running :issues, "web", "drnic" do
       setup_url_for
       @helper.should_receive(:open_url).once.with("https://github.com/drnic/project/issues")
@@ -57,11 +78,11 @@ describe "github issues" do
   
   class CommandHelper::Runner
     def mock_issues_for(*args)
-      options[:updated_at] = 5.minutes.ago
-      options[:closed_at]  = 5.minutes.ago
-      options[:created_at] = 10.hours.ago
-      options[:user]       = "user"
-      options[:project]    = "project"
+      # options[:updated_at] = 5.minutes.ago
+      # options[:closed_at]  = 5.minutes.ago
+      # options[:created_at] = 10.hours.ago
+      # options[:user]       = "user"
+      # options[:project]    = "project"
       json = <<-JSON.gsub(/^    /, '')
       [
         {

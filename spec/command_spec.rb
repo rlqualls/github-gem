@@ -105,7 +105,7 @@ describe GitHub::Command do
     @command.should_receive(:puts).once.with("Press Enter to launch page in browser.")
     h.should_receive(:ask).once.with("Token: ").and_return("")
     helper = mock("GitHub::Helper")
-    helper.should_receive("open").once.with("https://github.com/account")
+    helper.should_receive(:open_url).once.with("https://github.com/account")
     @command.should_receive(:helper).once.and_return(helper)
     h.should_receive(:ask).once.with("Token: ").and_return("TOKEN")
     @command.should_receive(:highline).any_number_of_times.and_return(h)
@@ -113,5 +113,27 @@ describe GitHub::Command do
     @command.should_receive(:git).once.with("config --global github.token 'TOKEN'")
     @command.should_receive(:git).once.with("config --get github.user").and_return("drnic")
     @command.github_user
+  end
+
+  it "should return the source of a command" do
+    @command.stub_chain(:method, :source_location).and_return(["file.rb", 1])
+    @command.should_receive(:method)
+    File.stub(:open).with("file.rb","r").and_return("code body")
+    File.should_receive(:open).with("file.rb", "r").and_return("code body")
+    @command.source
+  end
+
+  it "should return the github token" do
+    @command.should_receive(:git).with("config --get github.token").and_return("sometoken")
+    @command.github_token
+  end
+
+  it "should request the github credentials if no token is set" do
+    pending "Does not seem to think #request_github_credentials is getting called"
+    empty_token = nil
+    @command.stub(:git).with("config --get github.token").and_return(empty_token)
+    @command.should_receive(:request_github_credentials).and_return(true)
+    @command.should_receive(:github_token)
+    @command.github_token
   end
 end
