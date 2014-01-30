@@ -257,8 +257,19 @@ helper :issues_page_for do |user|
   "https://github.com/#{user}/#{project}/issues"
 end
 
-helper :list_issues_for do |user, state|
-  "https://api.github.com/repos/#{user}/#{project}/issues?state=#{state}"
+helper :get_issues_for do |repo, state = "open"|
+  case repo
+  when /^(.*)\/(.*)$/
+    user = $1
+    repo = $2
+  when nil
+    user = owner
+    repo = project
+  else
+    die "Specify repositories in the format <user>/<repository>"
+  end
+  url = "https://api.github.com/repos/#{user}/#{repo}/issues?state=#{state}"
+  return JSON.parse(open(url).read)
 end
 
 helper :has_launchy? do |blk|
@@ -271,7 +282,7 @@ helper :has_launchy? do |blk|
   end
 end
 
-helper :open do |url|
+helper :open_url do |url|
   has_launchy? proc {
       Launchy.open url
   }

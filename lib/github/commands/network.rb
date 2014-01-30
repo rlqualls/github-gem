@@ -18,7 +18,7 @@ command :network do |command, user|
 
   case command
   when 'web'
-    helper.open helper.network_page_for(user)
+    helper.open_url helper.network_page_for(user)
   when 'list'
     helper.network_members(user, options).each { |user| puts user }
   when 'fetch'

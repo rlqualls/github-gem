@@ -4,6 +4,6 @@ command :admin do |user|
     homepage = helper.homepage_for(user || helper.owner, 'master')
     homepage.gsub!(%r{/tree/master$}, '')
     homepage += "/admin"
-    helper.open homepage
+    helper.open_url homepage
   end
 end

@@ -8,7 +8,7 @@ describe "github browse" do
     running :browse do
       setup_url_for
       setup_user_and_branch("user", "test-branch")
-      @helper.should_receive(:open).once.with("https://github.com/user/project/tree/test-branch")
+      @helper.should_receive(:open_url).once.with("https://github.com/user/project/tree/test-branch")
     end
   end
 
@@ -16,21 +16,21 @@ describe "github browse" do
     running :browse, "pending" do
       setup_url_for
       setup_user_and_branch("user", "test-branch")
-      @helper.should_receive(:open).once.with("https://github.com/user/project/tree/pending")
+      @helper.should_receive(:open_url).once.with("https://github.com/user/project/tree/pending")
     end
   end
 
   specify "browse defunkt pending should open the home page of defunkt's fork with the 'pending' branch" do
     running :browse, "defunkt", "pending" do
       setup_url_for
-      @helper.should_receive(:open).once.with("https://github.com/defunkt/project/tree/pending")
+      @helper.should_receive(:open_url).once.with("https://github.com/defunkt/project/tree/pending")
     end
   end
 
   specify "browse defunkt/pending should open the home page of defunkt's fork with the 'pending' branch" do
     running :browse, "defunkt/pending" do
       setup_url_for
-      @helper.should_receive(:open).once.with("https://github.com/defunkt/project/tree/pending")
+      @helper.should_receive(:open_url).once.with("https://github.com/defunkt/project/tree/pending")
     end
   end
 end

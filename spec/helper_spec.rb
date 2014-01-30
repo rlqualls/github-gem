@@ -343,7 +343,7 @@ random
     end
   end
 
-  helper :open do
+  helper :open_url do
     it "should launch the URL when Launchy is installed" do
       begin
         # tricking launchy into thinking there is always a browser
@@ -353,7 +353,7 @@ random
         @helper.should_receive(:gem).with('launchy')
         Launchy.tap do |launchy|
           launchy.should_receive(:open).with("http://www.google.com")
-          @helper.open "http://www.google.com"
+          @helper.open_url "http://www.google.com"
         end
       rescue LoadError
         fail "Launchy is required for this spec"
@@ -363,7 +363,7 @@ random
     it "should fail when Launchy is not installed" do
       @helper.should_receive(:gem).with('launchy').and_raise(Gem::LoadError)
       STDERR.should_receive(:puts).with("Sorry, you need to install launchy: `gem install launchy`")
-      @helper.open "http://www.google.com"
+      @helper.open_url "http://www.google.com"
     end
   end
 end

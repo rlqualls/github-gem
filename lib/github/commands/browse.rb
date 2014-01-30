@@ -10,6 +10,6 @@ command :browse do |user, branch|
     branch = user and user = nil if branch.nil?
     user ||= helper.branch_user
     branch ||= helper.branch_name
-    helper.open helper.homepage_for(user, branch)
+    helper.open_url helper.homepage_for(user, branch)
   end
 end

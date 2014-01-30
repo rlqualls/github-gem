@@ -16,14 +16,14 @@ describe "github network" do
   specify "network should open the network page for this repo" do
     running :network, 'web' do
       setup_url_for
-      @helper.should_receive(:open).once.with("https://github.com/user/project/network")
+      @helper.should_receive(:open_url).once.with("https://github.com/user/project/network")
     end
   end
 
   specify "network defunkt should open the network page for defunkt's fork" do
     running :network, 'web', "defunkt" do
       setup_url_for
-      @helper.should_receive(:open).once.with("https://github.com/defunkt/project/network")
+      @helper.should_receive(:open_url).once.with("https://github.com/defunkt/project/network")
     end
   end
   
