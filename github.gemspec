@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   
   # These don't seem to be used. Remove later.
   # s.add_dependency "text-hyphen", "1.0.0"
-  # s.add_dependency "text-format", "1.0.0"
+  s.add_dependency "text-format", "1.0.0"
   s.add_dependency "highline", "~> 1.6"
   s.add_dependency "json_pure", "~> 1.5.1"
   s.add_dependency "launchy", "~> 2.0.2"

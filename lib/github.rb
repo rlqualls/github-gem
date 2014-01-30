@@ -6,7 +6,7 @@ require 'github/ui'
 require 'fileutils'
 require 'open-uri'
 require 'json'
-# require 'text/format'
+require 'text/format'
 require 'paint'
 require 'base64'
 require 'rouge'
@@ -40,6 +40,12 @@ module GitHub
     Array(options[:alias] || options[:aliases]).each do |command_alias|
       commands[command_alias.to_s] = commands[command.to_s]
     end
+  end
+
+  def theme(theme, options={}, &block)
+    theme = theme.to_s
+    debug "Registered theme: #{theme}"
+    themes[theme] = Theme.new(&block)
   end
 
   def desc(str)
