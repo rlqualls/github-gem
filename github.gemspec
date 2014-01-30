@@ -10,15 +10,16 @@ Gem::Specification.new do |s|
   s.email       = ["robert@robertqualls.com"]
   s.homepage    = "https://github.com/rlqualls/github-gem"
   s.summary     = "Manage github from the comand line"
-  s.description = "Based on the official `github-gem` command line helper"
+  s.description = "Based on the original `github` gem command line helper"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
   
-  s.add_dependency "text-hyphen", "1.0.0"
-  s.add_dependency "text-format", "1.0.0"
+  # These don't seem to be used. Remove later.
+  # s.add_dependency "text-hyphen", "1.0.0"
+  # s.add_dependency "text-format", "1.0.0"
   s.add_dependency "highline", "~> 1.6"
   s.add_dependency "json_pure", "~> 1.5.1"
   s.add_dependency "launchy", "~> 2.0.2"
