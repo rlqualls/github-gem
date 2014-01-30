@@ -100,6 +100,7 @@ module GitHub
       command_path = BasePath + "/commands/#{name}.rb"
       if File.exist?(command_path)
         load command_path
+        commands[name]
       else
         commands[name] = GitCommand.new(name)
       end
