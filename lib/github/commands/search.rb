@@ -1,5 +1,6 @@
 desc "Search GitHub for the given repository name."
 flags :language => "Only show results for a particular language"
+flags :plain => "No coloring"
 usage "github search [query]"
 usage "github search --language=[language]"
 command :search do |query|
@@ -14,8 +15,14 @@ command :search do |query|
     result_list = repos.map do |r| 
       description = r['description']
       full_name = r['full_name']
-      "#{Paint[full_name, :blue]} - #{description}"
+      if options[:plain]
+        "#{full_name} - #{description}" 
+      else
+        "#{Paint[full_name, :blue]} - #{description}"
+      end
     end
+    # puts result_list
+    # GitHub::UI::CursesMenu.new(result_list)
     helper.terminal_display(result_list)
   else
     puts "No results found"
