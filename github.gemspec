@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "launchy", "~> 2.0.2"
   s.add_dependency "paint", "~> 0.8"
   s.add_dependency "rouge", "~> 1.3.2"
-  s.add_dependency "curses", "~> 1.3.2"
+  s.add_dependency "ncursesw", "~> 1.4.0"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~>1.3.1"

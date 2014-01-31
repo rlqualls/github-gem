@@ -21,9 +21,12 @@ command :search do |query|
         "#{Paint[full_name, :blue]} - #{description}"
       end
     end
-    # puts result_list
-    # GitHub::UI::CursesMenu.new(result_list)
-    helper.terminal_display(result_list)
+    if options[:plain]
+      puts result_list
+      # GitHub::UI::CursesMenu.new(result_list)
+    else
+      helper.terminal_display(result_list)
+    end
   else
     puts "No results found"
   end
