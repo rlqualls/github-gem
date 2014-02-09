@@ -105,6 +105,10 @@ helper :get_common do |branch|
   `git rev-list ..#{branch} --boundary | tail -1 | git name-rev --stdin`.split(' ')[1] rescue 'unknown'
 end
 
+helper :terminal_lines do
+  `tput lines`.to_i
+end
+
 helper :print_commits do |our_commits, options|
   ignores = ignore_sha_array
 
@@ -531,7 +535,11 @@ helper :color_text do |text, extension|
 end
 
 helper :terminal_display do |text|
-  IO.popen("less -r", "w") { |p| p.puts text }
+  if text.split("\n").size > terminal_lines
+    IO.popen("less -r", "w") { |p| p.puts text }
+  else
+    puts text
+  end
 end
 
 # Converts an array of {"name" => "foo", "description" => "some description"} items
@@ -571,6 +579,42 @@ helper :format_commit_log do |data|
     log << "\n"
   end
   return log
+end
+
+helper :format_events do |events|
+  output = ""
+  events.each do |event|
+    actor = event["actor"]
+    user = actor["login"]
+    type = event["type"]
+    payload = event["payload"]
+    user_colored = Paint[user, :green]
+    case type
+    # Pushes
+    when "PushEvent"
+      output << "Push by #{user_colored}:\n\n"
+      commits = payload["commits"]
+      commits.each do |commit|
+        author  = commit["author"]
+        message = commit["message"]
+        output << "   Name: #{author["name"]} <#{author["email"]}>\n"
+        output << "   #{Paint[message, "grey52"]}\n\n"
+      end
+    # Pull Requests
+    when "PullRequestEvent"
+      pull_request = payload["pull_request"]
+      title = pull_request["title"]
+      commits = pull_request["commits"]
+      files = pull_request["changed_files"]
+      user = pull_request["user"]["login"]
+      output << "Pull request handled by #{user_colored}:\n"
+      output << "   Ttile   : #{title}\n"
+      output << "   User    : #{user}\n"
+      output << "   Commits : #{commits}\n"
+      output << "   Files   : #{files}\n"
+    end
+    return output
+  end
 end
 
 helper :format_pull_requests do |data|
