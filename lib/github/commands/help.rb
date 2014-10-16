@@ -3,7 +3,7 @@ command :default, :aliases => ['', '-h', 'help', '-help', '--help'] do
     GitHub.load command
   end
   message = []
-  message << "Usage: github command <space separated arguments>"
+  message << "Usage: github <command> [space-separated arguments]"
   message << "Available commands:"
   longest = GitHub.descriptions.map { |d,| d.to_s.size }.max
   indent = longest + 6 # length of "  " + " => "

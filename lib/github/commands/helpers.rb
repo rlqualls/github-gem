@@ -182,7 +182,7 @@ end
 # report modified track files...not files that have been staged
 # for committal
 helper :branch_dirty? do
-  !( system("git diff --quiet 2>#{DEV_NULL}") || 
+  !( system("git diff --quiet 2>#{DEV_NULL}") ||
     !system("git diff --cached --quiet 2>#{DEV_NULL}")
   )
 end
@@ -535,7 +535,7 @@ helper :color_text do |text, extension|
 end
 
 helper :terminal_display do |text|
-  if text.split("\n").size > terminal_lines
+  if text.size > terminal_lines
     IO.popen("less -r", "w") { |p| p.puts text }
   else
     puts text
@@ -620,7 +620,7 @@ end
 helper :format_pull_requests do |data|
   report = ""
   data.each do |pull|
-    title = pull["title"] 
+    title = pull["title"]
     body = pull["body"]
     date = pull["updated_at"]
     color_body = color_text(body, "md")
