@@ -26,14 +26,14 @@ The original project can be found at [defunkt/github-gem](https://github.com/def
 
 List the commands available.
 
-    $ github
-    $ github help
+    $ gh
+    $ gh help
 
 ### search
 
 List repositories matching the keyword.
 
-    $ github search ruby
+    $ gh search ruby
 
 ![github search screenshot](http://i.imgur.com/YdYfhn1.png)
 
@@ -41,15 +41,15 @@ List repositories matching the keyword.
 
 View the contents of a remote repo root, a repo directory, or a repo file.
 
-    $ github view rlqualls/github-gem
+    $ gh view rlqualls/github-gem
 
 ![github view screenshot](http://i.imgur.com/kgeh0VS.png)
 
-    $ github view rlqualls/github-gem/lib
+    $ gh view rlqualls/github-gem/lib
 
 ![github view directory screenshot](http://i.imgur.com/Mj4TQrL.png)
 
-    $ github view rlqualls/github-gem/lib/github/ui.rb
+    $ gh view rlqualls/github-gem/lib/github/ui.rb
 
 ![github view file screenshot](http://i.imgur.com/x9lvvJr.png)
 
@@ -57,20 +57,20 @@ View the contents of a remote repo root, a repo directory, or a repo file.
 
 View the README in the current directory or a GitHub repo.
 
-    $ github readme
-    $ github readme rlqualls/github-gem
+    $ gh readme
+    $ gh readme rlqualls/github-gem
 
 ### log
 
 View the commit log of a GitHub repo.
 
-    $ github log rlqualls/github-gem
+    $ gh log rlqualls/github-gem
 
 ### Command
 
 View the source code of a github gem command.
 
-    $ github command view
+    $ gh command view
 
 ## Original Usage Instructions
 
