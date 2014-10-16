@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
-  
+
   s.add_dependency "text-hyphen", "1.0.0"
   s.add_dependency "text-format", "1.0.0"
   s.add_dependency "highline", "~> 1.6"
@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "launchy", "~> 2.0.2"
   s.add_dependency "paint", "~> 0.8"
   s.add_dependency "rouge", "~> 1.3.2"
-  s.add_dependency "ncursesw", "~> 1.4.0"
+  s.add_dependency "ncurses-ruby", "~> 1.2.4"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~>1.3.1"

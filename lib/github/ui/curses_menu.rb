@@ -1,4 +1,4 @@
-require "ncursesw"
+require "ncurses.rb"
 
 module GitHub
   module UI
@@ -21,9 +21,9 @@ module GitHub
           Ncurses.noecho
           Ncurses.nonl
           # Ncurses.keypad(screen, true)
-          
+
           position = 0
-          
+
           menu = Ncurses::WINDOW.new(@size + 2, Ncurses.COLS,1,1)
           menu.border(*([0]*8))
           # menu.box('|', '-')
@@ -60,7 +60,7 @@ module GitHub
           if @data[i].length > Ncurses.COLS - 10
             menu_item << "..."
           end
-          menu.addstr(menu_item)           
+          menu.addstr(menu_item)
         end
       end
 
@@ -75,8 +75,8 @@ module GitHub
         clean_up
         puts "Placeholder: You tried to clone the repository!"
       end
-      
+
     end
   end
 end
- 
+

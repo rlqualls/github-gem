@@ -4,8 +4,6 @@
 [![Coverage Status](https://coveralls.io/repos/rlqualls/github-gem/badge.png?branch=master)](https://coveralls.io/r/rlqualls/github-gem?branch=master)
 [![Code Climate](https://codeclimate.com/github/rlqualls/github-gem.png)](https://codeclimate.com/github/rlqualls/github-gem)
 
-Note: Currently not working in OSX because of ncursesw.
-
 The GitHub gem is back!
 
 The original project can be found at [defunkt/github-gem](https://github.com/defunkt/github-gem).
