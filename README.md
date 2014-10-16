@@ -33,6 +33,8 @@ List the commands available.
 
 List repositories matching the keyword.
 
+    $ github search ruby
+
 ![github search screenshot](http://i.imgur.com/YdYfhn1.png)
 
 ### view
@@ -53,10 +55,16 @@ View the contents of a remote repo root, a repo directory, or a repo file.
 
 ### readme
 
-View the README in the current directory or in a remote repo.
+View the README in the current directory or a GitHub repo.
 
     $ github readme
     $ github readme rlqualls/github-gem
+
+### log
+
+View the commit log of a GitHub repo.
+
+    $ github log rlqualls/github-gem
 
 ### Command
 
